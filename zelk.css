@@ -1,146 +1,96 @@
-/*         ▀▀█ █▀▀ █   █ █
-           ▄▀  █▀▀ █   █▀▄
-           ▀▀▀ ▀▀▀ ▀▀▀ ▀ ▀           */
-/*--------------IMPORTS------------- */
-@import url(https://schnensch0.github.io/zelk/main.css);
-@import url(https://crearts-community.github.io/Settings-Icons/clients/powercord.css);
-/*--------------COLORS---------------*/
-/*------remove / and * to apply------*/
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/blue.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/green.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/gray.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/orange.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/purple.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/red.css); */
-/* @import url(https://raw.githack.com/schnensch0/zelk/main/colors/discord.css); */
-/*-------------VARIABLES-------------*/
+/* ==UserStyle==
+@name         Apple Liquid Glass (Robust)
+@namespace    github.com/vencord
+@version      1.2.0
+@description  A clean, lightweight, and aesthetic theme inspired by Apple's frosted glass design. Resilient to Discord updates.
+@author       (Your Name Here)
+==/UserStyle==
 :root {
-  /* set to 'unset' to show */
-  --scrollbars: none;
-  /* user notes */
-  --notes: none;
-  /* direct message box */
-  --message: none;
-  /* set to '4px solid' to show */
-  --embed-color: none;
-  /* set to 'Inter', sans-serif !important to use Inter font*/
-  --font-primary: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  --border-radius-1: 10px;
-  --border-radius-2: 8px;
+    /* --- CUSTOMIZE YOUR THEME HERE --- */
+    --background-image: url('https://images.unsplash.com/photo-1554147090-e1221a04a025?q=80&w=2592&auto=format&fit=crop');
+    --background-opacity: 0.5;
+    --glass-blur: 16px;
+    --glass-panel-color: rgba(28, 28, 30, 0.6);
+    --glass-panel-border: 1px solid rgba(255, 255, 255, 0.1);
+    --border-radius: 12px;
+    --background-color: #000000;
 }
-/*-----------CUSTOM COLORS-----------*/
-/*-------------DARK MODE-------------*/
-/*---------------BASIC---------------*/
-.theme-dark {
-  --accent-color: #bde6fb;
-  --background-1: #171d20;
-  --background-2: #1e2529;
-  --background-accent: #1e2529;
-  --border-color: #273034;
+
+/* --- Core Theme Logic (Don't need to edit) --- */
+
+/* Apply the background image */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    opacity: var(--background-opacity);
+    z-index: -1;
+    background-color: var(--background-color);
 }
-/*-------------LIGHT MODE------------*/
-.theme-light {
-  --accent-color: #22c5fd;
-  --background-1: #ffffff;
-  --background-2: #f5f7fa;
-  --background-accent: var(--background-2);
-  --border-color: transparent;
+
+/* Make the main app container transparent */
+.theme-dark, .theme-light {
+    --background-primary: transparent;
+    --background-secondary: transparent;
+    --background-secondary-alt: transparent;
+    --background-tertiary: transparent;
+    --background-accent: transparent;
+    --background-floating: transparent;
+    --channeltextarea-background: transparent;
+    --deprecated-panel-background: transparent;
 }
-/*-------------ADVANCED--------------*/
-.theme-dark {
-  /* background */
-  --background-primary: var(--background-1);
-  --background-primary-alt: var(--background-1);
-  --background-secondary: var(--background-1);
-  --background-secondary-alt: var(--background-1);
-  --background-tertiary: var(--background-2);
-  --background-accent-gradient: var(--background-2);
-  --background-floating: var(--background-1);
-  --background-mentioned: #bde6fb10;
-  --background-mentioned-hover: #bde6fb15;
-  /* modifiers */
-  --background-modifier-hover: #262e33;
-  --background-modifier-active: #495a63;
-  --background-modifier-selected: var(--accent-color);
-  --background-modifier-accent: transparent;
-  --background-message-hover: transparent;
-  /* text */
-  --text-normal: var(--accent-color);
-  --text-positive: var(--text-normal);
-  --text-muted: #6d8692;
-  --text-link: #edf8fe;
-  --interactive-selected: var(--background-primary);
-  --interactive-active: var(--text-normal);
-  --interactive-normal: var(--text-normal);
-  --interactive-muted: var(--button-background-active);
-  --channels-default: var(--text-muted);
-  --header-primary: var(--text-normal);
-  --header-secondary: var(--text-muted);
-  /* more */
-  --settings-icon-color: #8eacbc;
-  --control-brand-foreground: var(--accent-color);
-  --info-warning-foreground: var(--accent-color);
-  --tab-selected: #354249;
-  --switch: #3d4c53;
-  --activity-card-background: var(--background-1);
-  --brand-experiment: var(--accent-color) !important;
-  /* buttons */
-  --button-background: #2a3439;
-  --button-background-hover: #354249;
-  --button-background-active: #4d5f68;
-  --button-accent: var(--accent-color);
-  --button-accent-hover: #d2f3ff;
-  --button-accent-active: #8dd4f8;
-  --button-destructive: #fb7c7c;
-  --button-destructive-hover: #ff929b;
-  --button-destructive-active: #fa4a4a;
+
+/* Base style for all "glass" panels using attribute selectors for robustness */
+[class^="container_"]:not([class*="clickable"]), /* Main chat/user list container */
+[class^="panels_"],                                /* User panel at the bottom */
+[class^="privateChannels_"],                       /* DMs list */
+[class^="sidebar_"],                               /* Server channel list */
+[class^="container_"][class*="title"],             /* Title bar */
+[class^="chatContent_"],
+[class^="searchBar_"] [class^="searchBarComponent_"], /* Search bar */
+[class^="members_"],                               /* Members list */
+[class^="layer_"],                                 /* Modals and popups container */
+[class^="footer_"],                                /* Modal footer */
+[class^="header_"],                                /* Modal header */
+[class^="root_"] {                                 /* Settings menu, emoji picker etc. */
+    background-color: var(--glass-panel-color) !important;
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--border-radius);
+    border: var(--glass-panel-border);
 }
-.theme-light {
-  /* background */
-  --background-primary: var(--background-1);
-  --background-primary-alt: var(--background-1);
-  --background-secondary: var(--background-1);
-  --background-secondary-alt: var(--background-1);
-  --background-tertiary: var(--background-2);
-  --background-accent-gradient: var(--background-2);
-  --background-floating: var(--background-1);
-  --background-mentioned: #22c5fd10;
-  --background-mentioned-hover: #22c5fd15;
-  /* modifiers */
-  --background-modifier-hover: transparent;
-  --background-modifier-active: #b7c2cc;
-  --background-modifier-selected: var(--accent-color);
-  --background-modifier-accent: transparent;
-  --background-message-hover: transparent;
-  /* text */
-  --text-normal: #123354;
-  --text-positive: var(--text-normal);
-  --text-muted: #8495a7;
-  --text-link: #15a6f0;
-  --interactive-selected: var(--background-primary);
-  --interactive-active: var(--text-normal);
-  --interactive-normal: var(--text-normal);
-  --interactive-muted: var(--text-muted);
-  --channels-default: var(--text-normal);
-  --header-primary: var(--text-normal);
-  --header-secondary: var(--text-muted);
-  /* more */
-  --settings-icon-color: #566e86;
-  --control-brand-foreground: var(--accent-color);
-  --info-warning-foreground: var(--accent-color);
-  --tab-selected: var(--background-1);
-  --switch: #c8d0d9;
-  --activity-card-background: var(--background-1);
-  --brand-experiment: var(--accent-color) !important;
-  /* buttons */
-  --button-background: var(--background-1);
-  --button-background-hover: #d3dae1;
-  --button-background-active: #b1bcc8;
-  --button-accent: var(--accent-color);
-  --button-accent-hover: #22c5fd;
-  --button-accent-active: #0d87c5;
-  --button-destructive: #fb7c7c;
-  --button-destructive-hover: #ff929b;
-  --button-destructive-active: #fa4a4a;
+
+/* Specific tweaks for better layout */
+[class^="sidebar_"],
+[class^="chat_"],
+[class^="container_"] {
+    border-radius: 0;
+    border: none;
+}
+
+/* Make inner elements transparent */
+[class^="chat_"],
+[class^="threadSidebar_"],
+[class^="form_"]::before {
+    background-color: transparent !important;
+}
+
+/* Style the text input area */
+[class^="form_"] {
+    background-color: var(--glass-panel-color) !important;
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--border-radius);
+    border: var(--glass-panel-border);
+    margin: 0 16px 24px 16px;
+    border-top: var(--glass-panel-border) !important; /* Ensure border is visible */
+}
+
+[class^="scrollableContainer_"] {
+    border-radius: var(--border-radius);
+    background: transparent !important;
 }
